@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+spec:
+  replicas: 1  
+  selector:
+    matchLabels:
+      app: mysql-app
+  template:
+    metadata:
+      labels:
+        app: mysql-app
+    spec:
+      containers:
+      - name: mysql-container
+        image: mysql:8.0  
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "gn300803"  
+        - name: MYSQL_DATABASE
+          value: "actComp"  
+        ports:
+        - containerPort: 3306  
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql  # Carpeta de persistencia de datos
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc  # PVC (Persistent Volume Claim) para persistencia de datos

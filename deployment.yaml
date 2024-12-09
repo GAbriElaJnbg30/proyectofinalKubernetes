@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+spec:
+  replicas: 5 
+  selector:
+    matchLabels:
+      app: api-app
+  template:
+    metadata:
+      labels:
+        app: api-app
+    spec:
+      containers:
+      - name: api-container
+        image: gorettinbg/apirestgo-api-go:latest  # imagen en Docker Hub
+        ports:
+        - containerPort: 8080  # Puerto expuesto por la API
+        env:
+        - name: MYSQL_HOST
+          value: "mysql-service"  # Nombre del servicio MySQL
+        - name: MYSQL_USER
+          value: "root"  # Usuario de MySQL
+        - name: MYSQL_PASSWORD
+          value: "gn300803"  # Contraseña de MySQL
+        - name: MYSQL_DB
+          value: "actComp"  # Nombre de la base de datos
